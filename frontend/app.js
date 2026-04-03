@@ -7,6 +7,8 @@ const apiBaseUrlInput = document.getElementById("apiBaseUrl");
 const changeUrlBtn = document.getElementById("changeUrlBtn");
 const probabilityValue = document.getElementById("probabilityValue");
 const responseDetails = document.querySelector(".response-details");
+const DEPLOYED_API_BASE_URL = "https://creditrisk-api-09ps.onrender.com";
+const LOCAL_API_BASE_URL = "http://127.0.0.1:8000";
 
 const numericFields = new Set([
     "loan_amnt",
@@ -34,6 +36,14 @@ function setStatus(type, message) {
 
 function updateResultSummary(probability) {
     probabilityValue.textContent = Number.isFinite(probability) ? `${(probability * 100).toFixed(1)}%` : "-";
+}
+
+function getDefaultApiBaseUrl() {
+    const hostname = window.location.hostname;
+    if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "") {
+        return LOCAL_API_BASE_URL;
+    }
+    return DEPLOYED_API_BASE_URL;
 }
 
 function toggleUrlEditMode() {
@@ -145,6 +155,7 @@ function resetForm() {
     updateResultSummary(NaN);
 }
 
+apiBaseUrlInput.value = getDefaultApiBaseUrl();
 form.addEventListener("submit", predictRisk);
 resetBtn.addEventListener("click", resetForm);
 changeUrlBtn.addEventListener("click", toggleUrlEditMode);
