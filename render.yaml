@@ -11,4 +11,4 @@ services:
       - key: PREDICTION_THRESHOLD
         value: 0.40
       - key: CORS_ORIGINS
-        value: http://localhost,http://127.0.0.1
+        value: https://ephemeral-puffpuff-c2b819.netlify.app
