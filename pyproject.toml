@@ -1,0 +1,28 @@
+[project]
+name = "creditrisk"
+version = "0.1.0"
+description = "End-to-end credit default risk prediction with FastAPI and a simple web UI."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.135.3",
+    "numpy>=2.4.4",
+    "pandas>=3.0.2",
+    "pydantic-settings>=2.13.1",
+    "scikit-learn>=1.8.0",
+    "uvicorn>=0.35.0",
+    "xgboost>=3.2.0",
+]
+
+[project.scripts]
+train-model = "src.train_model:main"
+generate-template = "src.template:main"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=8.4.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

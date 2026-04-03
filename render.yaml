@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: credit-risk-api
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: API_VERSION
+        value: 1.0.0
+      - key: PREDICTION_THRESHOLD
+        value: 0.40
+      - key: CORS_ORIGINS
+        value: http://localhost,http://127.0.0.1
