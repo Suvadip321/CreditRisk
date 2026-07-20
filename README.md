@@ -6,7 +6,7 @@ APPROVE or REJECT decision. Built with XGBoost on Lending Club loan data,
 served through a FastAPI backend and a clean web interface.
 
 ## Live Demo
-- Frontend: `https://ephemeral-puffpuff-c2b819.netlify.app`
+- Frontend: `https://credit-risk-livid.vercel.app`
 - Backend API: `https://creditrisk-api-09ps.onrender.com`
 
 ## How it works
@@ -26,7 +26,7 @@ the decision is REJECT, otherwise APPROVE.
 ## Tech Stack
 - Python, FastAPI, scikit-learn, XGBoost
 - HTML, CSS, JavaScript
-- Docker, Render (API), Netlify (frontend)
+- Docker, Render (API), Vercel (frontend)
 
 ## Running locally
 

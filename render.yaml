@@ -11,4 +11,4 @@ services:
       - key: PREDICTION_THRESHOLD
         value: 0.40
       - key: CORS_ORIGINS
-        value: https://ephemeral-puffpuff-c2b819.netlify.app
+        value: https://credit-risk-livid.vercel.app
