@@ -1,61 +1,46 @@
 # Credit Risk Predictor
 
-An end-to-end machine learning project that predicts the probability of loan default and serves the result through a FastAPI backend and a clean web interface.
+Predicts whether a loan applicant is likely to default. Fill in the loan
+details, and the model returns a probability of default along with an
+APPROVE or REJECT decision. Built with XGBoost on Lending Club loan data,
+served through a FastAPI backend and a clean web interface.
 
 ## Live Demo
 - Frontend: `https://ephemeral-puffpuff-c2b819.netlify.app`
 - Backend API: `https://creditrisk-api-09ps.onrender.com`
 
-## Overview
-- Trained an XGBoost-based credit risk model on Lending Club style loan data.
-- Built a FastAPI service for real-time risk prediction.
-- Created a simple, professional frontend for applicant input and model results.
-- Deployed the backend with Docker on Render and the frontend on Netlify.
+## How it works
 
-## Project Structure
-```text
-CreditRisk/
-  api.py
-  Dockerfile
-  render.yaml
-  frontend/
-    index.html
-    styles.css
-    app.js
-  models/
-    credit_risk_model.pkl
-  src/
-    config.py
-    logger.py
-    predict.py
-    preprocess.py
-    template.csv
-    template.py
-    train_model.py
-  tests/
-    test_api.py
-```
+The model is an XGBoost classifier inside a sklearn Pipeline. The pipeline
+handles all preprocessing - parsing string fields, engineering domain
+features like credit age and revolving utilization, and dropping
+post-approval columns that would leak the outcome.
+
+Training uses a time-based split at 2018-01-01 to prevent data leakage,
+with TimeSeriesSplit cross-validation. Hyperparameters are tuned with
+RandomizedSearchCV over 20 iterations, optimizing for AUC.
+
+At inference time, if the predicted probability of default exceeds 0.40,
+the decision is REJECT, otherwise APPROVE.
 
 ## Tech Stack
-- Python
-- FastAPI
-- scikit-learn
-- XGBoost
+- Python, FastAPI, scikit-learn, XGBoost
 - HTML, CSS, JavaScript
-- Docker
-- Render
-- Netlify
+- Docker, Render (API), Netlify (frontend)
 
-## Local Run
+## Running locally
+
 ```bash
 uv sync
-uv run pytest
-uv run python api.py
+python -m src.train_model   # train the model first
+uv run python api.py        # then start the API
 ```
 
-Then open `frontend/index.html` in a browser.
+Then open `frontend/index.html` in a browser. The training dataset is not
+committed - put it at `data/lending_club_subset.csv` before training.
 
-## Docker Run
+## Docker
+
 ```bash
 docker build -t credit-risk-api .
 docker run --rm -p 8000:8000 -e CORS_ORIGINS=http://localhost,http://127.0.0.1 credit-risk-api
@@ -76,6 +61,6 @@ Confusion matrix:
 ```
 
 ## Notes
-- The large training dataset is kept local and is not committed to GitHub.
-- Runtime settings are defined in `src/config.py` and can be overridden with environment variables.
+- The training dataset is not committed to the repo.
+- Runtime settings are in `src/config.py` and can be overridden with env vars.
 - The frontend automatically uses the deployed backend URL in production.
